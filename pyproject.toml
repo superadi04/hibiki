@@ -1,0 +1,26 @@
+[project]
+name = "hibiki"
+requires-python = ">= 3.10"
+description = "Hibiki is Hibiki"
+dependencies = [
+    "moshi >= 0.1.0",
+]
+authors = [{name="Laurent Mazaré", email="laurent@kyutai.org"}]
+maintainers = [{name="Laurent Mazaré", email="laurent@kyutai.org"}]
+license = {text = "MIT"}
+dynamic = ["version"]
+readme = "README.md"
+
+[tool.setuptools.dynamic]
+version = {attr = "hibiki.__version__"}
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = [
+    "pyright",
+    "flake8",
+    "pre-commit",
+]
