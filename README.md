@@ -16,24 +16,35 @@ In order to translate an audio file using Hibiki/PyTorch, install the
 pip install moshi
 ```
 
-Then run:
+Then in order to tranlate input file `in_fr.wav` and generate `out_en.wav`, run
+the following:
 ```bash
 python -m moshi.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-pytorch-bf16
 ```
 
+You can specify some classifier-free guidance using the `--cfg-coef` parameter.
+The default value is 1, the higher the value, the closer the generated voice
+should be to the original voice. A typical value to use is 3. 
 
 ### MLX
 
 In order to translate an audio file using Hibiki/MLX, install the
-`moshi_mlx` package via.
+`moshi_mlx` package via the following command. You need at least version `0.2.1`
+of this package.
+
 ```bash
 pip install moshi_mlx
 ```
 
-Then run:
+Then in order to tranlate input file `in_fr.wav` and generate `out_en.wav`, run
+the following:
 ```bash
 python -m moshi_mlx.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-mlx-bf16
 ```
+
+You can specify some classifier-free guidance using the `--cfg-coef` parameter.
+The default value is 1, the higher the value, the closer the generated voice
+should be to the original voice. A typical value to use is 3. 
 
 ### Rust
 
