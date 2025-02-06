@@ -116,12 +116,11 @@ We release two models for `FR -> EN` translation:
 - Hibiki 2B (for the backbone, a bit more with the depth transformer), 16 RVQ per stream.
 - Hibiki 1B (for the backbone, a bit more with the depth transformer), 8 RVQ per stream, ideal for on device inferencde.
 
-Depending on the backend, the file format will vary.
-Quantized models coming up soon. Curreent list of models:
-                                                                                                                                                                                                                      - Hibiki 2B for PyTorch (bf16): [kyutai/hibiki-2b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
-                                                                                                                                                                                                                      - Hibiki 1B for PyTorch (bf16): [kyutai/hibiki-1b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-1b-pytorch-bf16)
-                                                                                                                                                                                                                      - Hibiki 2B for MLX (bf16): [kyutai/hibiki-2b-mlx-bf16](https://huggingface.co/kyutai/hibiki-2b-mlx-bf16)
-                                                                                                                                                                                                                      - Hibiki 1B for MLX (bf16): [kyutai/hibiki-1b-mlx-bf16](https://huggingface.co/kyutai/hibiki-1b-mlx-bf16)
+Depending on the backend, the file format will vary.  Quantized models coming up soon. Current list of models:
+- Hibiki 2B for PyTorch (bf16): [kyutai/hibiki-2b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
+- Hibiki 1B for PyTorch (bf16): [kyutai/hibiki-1b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-1b-pytorch-bf16)
+- Hibiki 2B for MLX (bf16): [kyutai/hibiki-2b-mlx-bf16](https://huggingface.co/kyutai/hibiki-2b-mlx-bf16)
+- Hibiki 1B for MLX (bf16): [kyutai/hibiki-1b-mlx-bf16](https://huggingface.co/kyutai/hibiki-1b-mlx-bf16)
 
 All models are released under the CC-BY 4.0 license.
 
