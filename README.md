@@ -2,7 +2,7 @@
 
 [[Read the paper]][hibiki]
 [[Samples]](https://huggingface.co/spaces/kyutai/hibiki-samples)
-[[HuggingFace]](https://huggingface.co/kmhf/hibiki-2b-pytorch-bf16)
+[[HuggingFace]](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
 
 ## Running the model
 
