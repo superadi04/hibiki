@@ -14,7 +14,7 @@ Hibiki is a model for **streaming speech translation** (also known as
 *simultaneous* translation). Unlike offline translation—where one waits for the end of the source utterance to start
 translating--- Hibiki **adapts its flow** to accumulate just enough context to produce a correct translation in real-time,
 chunk by chunk. As the user speaks, Hibiki generates natural speech in the target language,
-optionally with voice transfer, **along with a text translation**. 
+optionally with voice transfer, **along with a text translation**.
 
 ### Architecture
 Hibiki is a decoder-only model for simultaneous speech translation. Hibiki leverages the **multistream** architecture of
@@ -48,7 +48,7 @@ silences or by synthesizing targets with a voice controlled, alignment-aware TTS
 ### Inference
 At inference, Hibiki continuously encodes source speech and produces target speech. Hibiki relies on simple
 temperature sampling and is thus compatible with batching unlike models that rely on complex
-inference policies. Moreover, the fidelity of Hibiki's voice transfer can be controlled by changing the coefficient of 
+inference policies. Moreover, the fidelity of Hibiki's voice transfer can be controlled by changing the coefficient of
 the Classifier-Free Guidance: a larger coefficient will increase voice similarity, but excessive coefficients can lead
 to worse translations. Hibiki currently only supports French-to-English translation. Its smaller alternative, Hibiki-M
 can run locally on smartphone hardware. Current models were trained on sequences up to 120 seconds and use a context
@@ -77,7 +77,7 @@ python -m moshi.run_inference sample_fr_hibiki_crepes.mp3 out_en.wav --hf-repo k
 
 You can specify some classifier-free guidance using the `--cfg-coef` parameter.
 The default value is 1, the higher the value, the closer the generated voice
-should be to the original voice. A typical value to use is 3. 
+should be to the original voice. A typical value to use is 3.
 
 ### MLX
 
@@ -98,7 +98,7 @@ python -m moshi_mlx.run_inference sample_fr_hibiki_crepes.mp3 out_en.wav --hf-re
 
 You can specify some classifier-free guidance using the `--cfg-coef` parameter.
 The default value is 1, the higher the value, the closer the generated voice
-should be to the original voice. A typical value to use is 3. 
+should be to the original voice. A typical value to use is 3.
 
 ### MLX-Swift
 
@@ -109,6 +109,22 @@ on an iPhone 16 Pro. Note that this code there is very much experimental.
 ### Rust
 
 More instructions to come soon.
+
+## Models
+
+We release two models for `FR -> EN` translation:
+- Hibiki 2B (for the backbone, a bit more with the depth transformer), 16 RVQ per stream.
+- Hibiki 1B (for the backbone, a bit more with the depth transformer), 8 RVQ per stream, ideal for on device inferencde.
+
+Depending on the backend, the file format will vary.
+Quantized models coming up soon. Curreent list of models:
+                                                                                                                                                                                                                      - Hibiki 2B for PyTorch (bf16): [kyutai/hibiki-2b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
+                                                                                                                                                                                                                      - Hibiki 1B for PyTorch (bf16): [kyutai/hibiki-1b-pytorch-bf16](https://huggingface.co/kyutai/hibiki-1b-pytorch-bf16)
+                                                                                                                                                                                                                      - Hibiki 2B for MLX (bf16): [kyutai/hibiki-2b-mlx-bf16](https://huggingface.co/kyutai/hibiki-2b-mlx-bf16)
+                                                                                                                                                                                                                      - Hibiki 1B for MLX (bf16): [kyutai/hibiki-1b-mlx-bf16](https://huggingface.co/kyutai/hibiki-1b-mlx-bf16)
+
+All models are released under the CC-BY 4.0 license.
+
 
 ## License
 
@@ -123,14 +139,14 @@ If you use Hibiki, please cite the following paper,
 
 ```
 @misc{kyutai2025hibiki,
-      title={High-Fidelity Simultaneous Speech-To-Speech Translation}, 
+      title={High-Fidelity Simultaneous Speech-To-Speech Translation},
       author={Tom Labiausse and Laurent Mazar\'e and Edouard Grave and
       Patrick P\'erez and Alexandre D\'efossez and Neil Zeghidour},
       year={2025},
       eprint={2502.03382},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2502.03382}, 
+      url={https://arxiv.org/abs/2502.03382},
 }
 ```
 
