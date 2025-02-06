@@ -21,7 +21,7 @@ Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.
 and translate them via the following:
 ```bash
 wget https://github.com/kyutai-labs/moshi/raw/refs/heads/main/data/sample_fr_hibiki_crepes.mp3
-python -m moshi.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-pytorch-bf16
+python -m moshi.run_inference sample_fr_hibiki_crepes.mp3 out_en.wav --hf-repo kyutai/hibiki-1b-pytorch-bf16
 ```
 
 
@@ -43,7 +43,7 @@ Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.
 and translate them via the following:
 ```bash
 wget https://github.com/kyutai-labs/moshi/raw/refs/heads/main/data/sample_fr_hibiki_crepes.mp3
-python -m moshi_mlx.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-mlx-bf16
+python -m moshi_mlx.run_inference sample_fr_hibiki_crepes.mp3 out_en.wav --hf-repo kyutai/hibiki-1b-mlx-bf16
 ```
 
 You can specify some classifier-free guidance using the `--cfg-coef` parameter.
