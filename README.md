@@ -1,4 +1,4 @@
-# Hibiki: a speech-text foundation model for real time dialogue
+# Hibiki: High-Fidelity Simultaneous Speech-To-Speech Translation
 
 [[Read the paper]][hibiki]
 [[Samples]](https://huggingface.co/spaces/kyutai/hibiki-samples)
