@@ -2,7 +2,7 @@
 
 [[Read the paper]][hibiki]
 [[Samples]](https://huggingface.co/spaces/kyutai/hibiki-samples)
-[[HuggingFace]](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
+[[HuggingFace]](https://huggingface.co/collections/kyutai/hibiki-fr-en-67a48835a3d50ee55d37c2b5)
 <a target="_blank" href="https://colab.research.google.com/drive/1as2BL2M54ZCYJkSdVYIuRLSW_K305Fye?usp=sharing">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
