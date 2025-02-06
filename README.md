@@ -7,7 +7,7 @@
 ## Description
 
 ### What is Hibiki?
-[Hibiki](https://github.com/kyutai-labs/hibiki) is a model for **streaming speech translation** (also known as
+Hibiki is a model for **streaming speech translation** (also known as
 *simultaneous* translation). Unlike offline translation—where one waits for the end of the source utterance to start
 translating--- Hibiki **adapts its flow** to accumulate just enough context to produce a correct translation in real-time,
 chunk by chunk. As the user speaks, Hibiki generates natural speech in the target language,
