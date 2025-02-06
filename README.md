@@ -57,7 +57,8 @@ size of 40 seconds.
 ## Running the model
 
 We provide inference code for PyTorch, Rust, MLX for macOS, and MLX-swift
-for iOS.
+for iOS. Note that the implementation for Hibiki is very close to that of Moshi, and the actual code
+is in the [kyutai-labs/moshi](https://github.com/kyutai-labs/moshi) repository.
 
 ### PyTorch
 
