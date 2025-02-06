@@ -4,6 +4,53 @@
 [[Samples]](https://huggingface.co/spaces/kyutai/hibiki-samples)
 [[HuggingFace]](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
 
+## Description
+
+### What is Hibiki?
+[Hibiki](https://github.com/kyutai-labs/hibiki) is a model for **streaming speech translation** (also known as
+*simultaneous* translation). Unlike offline translation—where one waits for the end of the source utterance to start
+translating--- Hibiki **adapts its flow** to accumulate just enough context to produce a correct translation in real-time,
+chunk by chunk. As the user speaks, Hibiki generates natural speech in the target language,
+optionally with voice transfer, **along with a text translation**. 
+
+### Architecture
+Hibiki is a decoder-only model for simultaneous speech translation. Hibiki leverages the **multistream** architecture of
+[Moshi](https://arxiv.org/abs/2410.00037) to model source and target speech jointly. This allows Hibiki
+to continuously process the input stream while generating the target speech. Hibiki produces text and audio tokens
+at a constant framerate of 12.5Hz. This allows for a continuous output audio stream, along with timestamped text translation.
+
+<p align="center">
+<img src="./img_hibiki_multistream.png" alt="Schema representing the multistream architecture of Hibiki"
+width="650px"></p>
+
+### How is it trained?
+
+Hibiki relies on supervised training of aligned source speech and target speech and text, from the same speaker.
+Such data does not exist in significant amounts so we rely on synthetic data generation. Word-level matching is made
+between source and target transcripts using a *contextual alignment* weakly-supervised method that leverages an
+off-the-shelf [MADLAD](https://huggingface.co/google/madlad400-3b-mt) machine translation system. The derived alignment
+rule (a word should only appear in the target once it's predictable from the source) is applied either by inserting
+silences or by synthesizing targets with a voice controlled, alignment-aware TTS.
+
+<div style="display: flex; align-items: center; justify-content: center;">
+  <img src="./img_contextual_alignment_text.png"
+       alt="Text-based alignemnt of source and target sequences."
+       style="margin-right: 20px;"/
+       width="400px">
+  <img src="./img_synthetic_waveforms.png"
+       alt="Generating synthetic data with silence insertion and alignment-aware TTS"
+       width="400px">
+</div>
+
+### Inference
+At inference, Hibiki continuously encodes source speech and produces target speech. Hibiki relies on simple
+temperature sampling and is thus compatible with batching unlike models that rely on complex
+inference policies. Moreover, the fidelity of Hibiki's voice transfer can be controlled by changing the coefficient of 
+the Classifier-Free Guidance: a larger coefficient will increase voice similarity, but excessive coefficients can lead
+to worse translations. Hibiki currently only supports French-to-English translation. Its smaller alternative, Hibiki-M
+can run locally on smartphone hardware. Current models were trained on sequences up to 120 seconds and use a context
+size of 40 seconds.
+
 ## Running the model
 
 We provide inference code for PyTorch, Rust, MLX for macOS, and MLX-swift
