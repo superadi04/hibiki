@@ -6,7 +6,8 @@
 
 ## Running the model
 
-We provide inference codebase in PyTorch, MLX, and Rust.
+We provide inference code for PyTorch, Rust, MLX for macOS, and MLX-swift
+for iOS.
 
 ### PyTorch
 
@@ -46,9 +47,13 @@ You can specify some classifier-free guidance using the `--cfg-coef` parameter.
 The default value is 1, the higher the value, the closer the generated voice
 should be to the original voice. A typical value to use is 3. 
 
+### MLX-Swift
+
+More instructions to come soon.
+
 ### Rust
 
-Soon
+More instructions to come soon.
 
 ## License
 
