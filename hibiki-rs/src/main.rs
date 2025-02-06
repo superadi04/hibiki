@@ -38,10 +38,10 @@ enum Command {
         #[arg(long, default_value = "kyutai/hibiki-1b-rs-bf16")]
         hf_repo: String,
 
-        #[arg(index = 0)]
+        #[arg()]
         audio_input_file: String,
 
-        #[arg(index = 1)]
+        #[arg()]
         audio_output_file: String,
 
         #[arg(long, default_value_t = 299_792_458)]

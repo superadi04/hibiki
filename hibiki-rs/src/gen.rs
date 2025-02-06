@@ -20,6 +20,29 @@ pub struct Args {
     pub cfg_alpha: Option<f64>,
 }
 
+fn text(
+    text_tokenizer: &sentencepiece::SentencePieceProcessor,
+    prev_text_token: u32,
+    text_token: u32,
+    text_start_token: u32,
+) -> Option<String> {
+    if prev_text_token == text_start_token {
+        text_tokenizer.decode_piece_ids(&[text_token]).ok()
+    } else {
+        let prev_ids = text_tokenizer.decode_piece_ids(&[prev_text_token]).ok();
+        let ids = text_tokenizer.decode_piece_ids(&[prev_text_token, text_token]).ok();
+        prev_ids.and_then(|prev_ids| {
+            ids.map(|ids| {
+                if ids.len() > prev_ids.len() {
+                    ids[prev_ids.len()..].to_string()
+                } else {
+                    String::new()
+                }
+            })
+        })
+    }
+}
+
 pub fn run(args: &Args, dev: &Device) -> Result<()> {
     let dtype = dev.bf16_default_to_f32();
     let lm_config = &args.lm_config;
@@ -73,7 +96,7 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
             Some(conditions)
         }
     };
-    let max_steps = 2500;
+    let max_steps = (in_pcm_len / 1920).min(2500);
     let cfg_alpha = if args.cfg_alpha == Some(1.) { None } else { args.cfg_alpha };
     let mut state = {
         let config = moshi::lm_generate_multistream::Config {
@@ -97,13 +120,14 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
         )
     };
 
-    let mut prev_text_token = state.config().text_start_token;
+    let text_start_token = state.config().text_start_token;
+    let mut prev_text_token = text_start_token;
     let mut out_pcms = vec![];
     let mut text_tokens = vec![];
     let mut nsteps = 0;
     tracing::info!("starting the inference loop");
     let start_time = std::time::Instant::now();
-    for start_index in 0..(in_pcm_len / 1920).min(max_steps) {
+    for start_index in 0..max_steps {
         nsteps += 1;
         let in_pcm = in_pcm.i((.., .., start_index * 1920..(start_index + 1) * 1920))?;
         let codes = mimi.encode_step(&in_pcm.into())?;
@@ -112,11 +136,19 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
             for step in 0..steps {
                 let codes = codes.i((.., .., step..step + 1))?;
                 let codes = codes.i((0, .., 0))?.to_vec1::<u32>()?;
-                prev_text_token =
+                let text_token =
                     state.step_(Some(prev_text_token), &codes, None, None, conditions.as_ref())?;
-                if prev_text_token != 0 && prev_text_token != 3 {
-                    text_tokens.push(prev_text_token)
+                if text_token != 0 && text_token != 3 {
+                    text_tokens.push(text_token);
+                    if let Some(text) =
+                        text(&text_tokenizer, prev_text_token, text_token, text_start_token)
+                    {
+                        use std::io::Write;
+                        print!("{text}");
+                        std::io::stdout().flush().unwrap();
+                    }
                 }
+                prev_text_token = text_token;
                 if let Some(audio_tokens) = state.last_audio_tokens() {
                     let audio_tokens =
                         Tensor::new(&audio_tokens[..generated_audio_codebooks], dev)?
@@ -130,6 +162,7 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
             }
         }
     }
+    println!();
     let dt = start_time.elapsed().as_secs_f32();
     tracing::info!(
         "generated {nsteps} steps in {dt:.2}s, {:.0}ms/token",
