@@ -77,7 +77,7 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
     );
     let text_lp = candle_transformers::generation::LogitsProcessor::from_sampling(
         args.seed,
-        candle_transformers::generation::Sampling::TopK { k: 250, temperature: 0.8 },
+        candle_transformers::generation::Sampling::TopK { k: 25, temperature: 0.8 },
     );
     let generated_audio_codebooks = lm_config.depformer.as_ref().map_or(8, |v| v.num_slices);
 

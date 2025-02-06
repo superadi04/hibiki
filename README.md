@@ -109,7 +109,16 @@ on an iPhone 16 Pro. Note that this code there is very much experimental.
 
 ### Rust
 
-More instructions to come soon.
+The [hibiki-rs](https://github.com/kyutai-labs/hibiki/tree/main/hibiki-rs)
+directory contains a simple Rust app that generates a translation based on an
+original audio file. You can use either `--features cuda` to run on a nvidia gpu, or
+`--features metal` to run on a mac.
+
+```bash
+cd hibiki-rs
+wget https://github.com/kyutai-labs/moshi/raw/refs/heads/main/data/sample_fr_hibiki_crepes.mp3
+cargo run  --features metal -r -- gen sample_fr_hibiki_crepes.mp3 out_en.wav
+```
 
 ## Models
 
