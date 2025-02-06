@@ -52,7 +52,9 @@ should be to the original voice. A typical value to use is 3.
 
 ### MLX-Swift
 
-More instructions to come soon.
+The [kyutai-labs/moshi-swift](https://github.com/kyutai-labs/moshi-swift) repo
+contains a MLX-Swift implementation that can run on an iPhone. This was tested
+on an iPhone 16 Pro. Note that this code there is very much experimental.
 
 ### Rust
 
