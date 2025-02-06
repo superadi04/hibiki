@@ -24,16 +24,19 @@ struct Args {
 enum Command {
     Gen {
         #[arg(long)]
-        lm_model_file: String,
+        lm_model_file: Option<String>,
 
         #[arg(long)]
-        mimi_model_file: String,
+        mimi_model_file: Option<String>,
 
         #[arg(long)]
-        lm_config_file: String,
+        config: Option<String>,
 
         #[arg(long)]
-        text_tokenizer: String,
+        text_tokenizer: Option<String>,
+
+        #[arg(long, default_value = "kyutai/hibiki-1b-rs-bf16")]
+        hf_repo: String,
 
         #[arg(index = 0)]
         audio_input_file: String,
@@ -82,8 +85,9 @@ fn main() -> Result<()> {
             seed,
             text_tokenizer,
             lm_model_file,
-            lm_config_file,
+            config,
             mimi_model_file,
+            hf_repo,
             audio_input_file,
             audio_output_file,
             cfg_alpha,
@@ -91,13 +95,36 @@ fn main() -> Result<()> {
         } => {
             let dev = device(cpu)?;
             tracing_subscriber::fmt::init();
+            let api = hf_hub::api::sync::Api::new()?;
+            let repo = api.model(hf_repo);
+            let config = match config {
+                None => repo.get("config.toml")?,
+                Some(f) => std::path::PathBuf::from(f),
+            };
+            tracing::info!("loading the config");
+            let config = std::fs::read_to_string(&config)?;
+            let config: gen::Config = toml::from_str(&config)?;
+
+            let lm_model_file = match lm_model_file {
+                None => repo.get(&config.moshi_name)?,
+                Some(v) => std::path::PathBuf::from(v),
+            };
+            let mimi_model_file = match mimi_model_file {
+                None => repo.get(&config.mimi_name)?,
+                Some(v) => std::path::PathBuf::from(v),
+            };
+            let text_tokenizer = match text_tokenizer {
+                None => repo.get(&config.tokenizer_name)?,
+                Some(v) => std::path::PathBuf::from(v),
+            };
+
             let args = gen::Args {
+                lm_config: config.model,
                 lm_model_file,
                 mimi_model_file,
                 text_tokenizer,
-                lm_config_file,
-                audio_input_file,
-                audio_output_file,
+                audio_input_file: audio_input_file.into(),
+                audio_output_file: audio_output_file.into(),
                 seed,
                 cfg_alpha,
             };

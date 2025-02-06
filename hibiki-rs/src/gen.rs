@@ -1,19 +1,28 @@
 use anyhow::Result;
 use candle::{Device, IndexOp, Tensor};
 
+#[derive(Debug, Clone, serde::Deserialize)]
+pub struct Config {
+    pub mimi_name: String,
+    pub moshi_name: String,
+    pub tokenizer_name: String,
+    pub model: moshi::lm::Config,
+}
+
 pub struct Args {
-    pub lm_model_file: String,
-    pub lm_config_file: String,
-    pub mimi_model_file: String,
-    pub audio_input_file: String,
-    pub text_tokenizer: String,
-    pub audio_output_file: String,
+    pub lm_config: moshi::lm::Config,
+    pub lm_model_file: std::path::PathBuf,
+    pub mimi_model_file: std::path::PathBuf,
+    pub audio_input_file: std::path::PathBuf,
+    pub text_tokenizer: std::path::PathBuf,
+    pub audio_output_file: std::path::PathBuf,
     pub seed: u64,
     pub cfg_alpha: Option<f64>,
 }
 
 pub fn run(args: &Args, dev: &Device) -> Result<()> {
     let dtype = dev.bf16_default_to_f32();
+    let lm_config = &args.lm_config;
     tracing::info!(?dtype, ?dev);
 
     tracing::info!("loading the audio input");
@@ -31,11 +40,8 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
     };
     tracing::info!(in_pcm_len, "loaded the audio input");
 
-    tracing::info!("loading the config");
-    let lm_config = std::fs::read_to_string(&args.lm_config_file)?;
-    let lm_config: moshi::lm::Config = toml::from_str(&lm_config)?;
     tracing::info!("loading the audio tokenizer");
-    let mut mimi = moshi::mimi::load(&args.mimi_model_file, Some(8), dev)?;
+    let mut mimi = moshi::mimi::load(args.mimi_model_file.to_str().unwrap(), Some(8), dev)?;
     tracing::info!("loading the lm");
     let lm_model = moshi::lm::load_lm_model(lm_config.clone(), &args.lm_model_file, dtype, dev)?;
     tracing::info!("loading the text tokenizer");
@@ -136,6 +142,6 @@ pub fn run(args: &Args, dev: &Device) -> Result<()> {
     let out_pcms = out_pcms.i((0, 0))?.to_vec1::<f32>()?;
     let mut out_wav = std::fs::File::create(&args.audio_output_file)?;
     moshi::wav::write_pcm_as_wav(&mut out_wav, &out_pcms, 24_000)?;
-    tracing::info!(audio = args.audio_output_file, "generated audio");
+    tracing::info!(audio = ?args.audio_output_file, "generated audio");
     Ok(())
 }
