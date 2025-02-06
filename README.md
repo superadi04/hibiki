@@ -61,7 +61,7 @@ for iOS.
 In order to translate an audio file using Hibiki/PyTorch, install the
 `moshi` package via.
 ```bash
-pip install moshi
+pip install -U moshi
 ```
 
 Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.com/kyutai-labs/moshi/tree/main/data)
@@ -83,7 +83,7 @@ In order to translate an audio file using Hibiki/MLX, install the
 of this package.
 
 ```bash
-pip install moshi_mlx
+pip install -U moshi_mlx
 ```
 
 Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.com/kyutai-labs/moshi/tree/main/data)
