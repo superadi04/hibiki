@@ -17,11 +17,13 @@ In order to translate an audio file using Hibiki/PyTorch, install the
 pip install moshi
 ```
 
-Then in order to tranlate input file `in_fr.wav` and generate `out_en.wav`, run
-the following:
+Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.com/kyutai-labs/moshi/tree/main/data)
+and translate them via the following:
 ```bash
+wget https://github.com/kyutai-labs/moshi/raw/refs/heads/main/data/sample_fr_hibiki_crepes.mp3
 python -m moshi.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-pytorch-bf16
 ```
+
 
 You can specify some classifier-free guidance using the `--cfg-coef` parameter.
 The default value is 1, the higher the value, the closer the generated voice
@@ -37,9 +39,10 @@ of this package.
 pip install moshi_mlx
 ```
 
-Then in order to tranlate input file `in_fr.wav` and generate `out_en.wav`, run
-the following:
+Then you can retrieve some sample files from [kyutai-labs/moshi](https://github.com/kyutai-labs/moshi/tree/main/data)
+and translate them via the following:
 ```bash
+wget https://github.com/kyutai-labs/moshi/raw/refs/heads/main/data/sample_fr_hibiki_crepes.mp3
 python -m moshi_mlx.run_inference in_fr.wav out_en.wav --hf-repo kyutai/hibiki-1b-mlx-bf16
 ```
 
