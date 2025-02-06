@@ -3,7 +3,7 @@
 [[Read the paper]][hibiki]
 [[Samples]](https://huggingface.co/spaces/kyutai/hibiki-samples)
 [[HuggingFace]](https://huggingface.co/kyutai/hibiki-2b-pytorch-bf16)
-<a target="_blank" href="[https://ai.honu.io/red/musicgen-colab](https://colab.research.google.com/drive/1as2BL2M54ZCYJkSdVYIuRLSW_K305Fye?usp=sharing))">
+<a target="_blank" href="https://colab.research.google.com/drive/1as2BL2M54ZCYJkSdVYIuRLSW_K305Fye?usp=sharing">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
