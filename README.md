@@ -101,6 +101,12 @@ You can specify some classifier-free guidance using the `--cfg-coef` parameter.
 The default value is 1, the higher the value, the closer the generated voice
 should be to the original voice. A typical value to use is 3.
 
+You can also use the model in real-time via the web-ui by running the following
+command.
+```bash
+python -m moshi_mlx.local_web --hf-repo kyutai/hibiki-1b-mlx-bf16
+```
+
 ### MLX-Swift
 
 The [kyutai-labs/moshi-swift](https://github.com/kyutai-labs/moshi-swift) repo
