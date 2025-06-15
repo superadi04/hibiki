@@ -8,9 +8,8 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
 
-use crate::gen::{Args, run};
-use crate::Config;
-use crate::device;
+use hibiki::{gen::{Args, run}, Config, device};
+use axum::serve::Server;
 
 #[tokio::main]
 async fn main() {
@@ -28,7 +27,7 @@ async fn main() {
         .layer(Extension(state));
 
     info!("Starting server on 0.0.0.0:8080");
-    axum::Server::bind(&"0.0.0.0:8080".parse().unwrap())
+    Server::bind(&"0.0.0.0:8080".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
@@ -42,7 +41,7 @@ pub struct HibikiState {
 
 impl HibikiState {
     pub async fn new(config: Config, device: candle::Device) -> anyhow::Result<Self> {
-        let repo = hf_hub::api::sync::Api::new()?.model("kyutai/hibiki-1b-rs-bf16");
+        let repo = hf_hub::api::sync::Api::new()?.model("kyutai/hibiki-1b-rs-bf16".to_string());
 
         let lm_model_file = repo.get(&config.moshi_name)?;
         let mimi_model_file = repo.get(&config.mimi_name)?;
