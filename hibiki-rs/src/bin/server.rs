@@ -5,7 +5,7 @@ use axum::{
     Router,
     response::IntoResponse,
 };
-use hyper::server::Server;
+use hyper::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
