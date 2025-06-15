@@ -5,7 +5,7 @@ use axum::{
     Router,
     response::IntoResponse,
 };
-use hyper::Server;
+use hyper::server::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
@@ -29,7 +29,8 @@ async fn main() {
 
     info!("Starting server on 0.0.0.0:8080");
 
-    Server::bind(&"0.0.0.0:8080".parse().unwrap())
+    let addr = "0.0.0.0:8080".parse().unwrap();
+    Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();

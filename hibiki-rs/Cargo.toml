@@ -11,7 +11,7 @@ categories = ["science"]
 
 [dependencies]
 anyhow = "1.0"
-axum = { version = "0.7", features = ["ws"] }
+axum = { version = "0.6", features = ["ws"] }
 candle = { version = "0.8.2", package = "candle-core" }
 candle-nn = "0.8.2"
 candle-transformers = "0.8.2"
