@@ -3,13 +3,13 @@ use axum::{
     extract::Extension,
     routing::get,
     Router,
+    Server,
 };
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
 
 use hibiki::{gen::{Args, run}, Config, device};
-use axum::serve::Server;
 
 #[tokio::main]
 async fn main() {
