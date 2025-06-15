@@ -4,7 +4,6 @@ use axum::{
     routing::get,
     Router,
 };
-use hyper::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
@@ -27,7 +26,7 @@ async fn main() {
         .layer(Extension(state));
 
     info!("Starting server on 0.0.0.0:8080");
-    Server::bind(&"0.0.0.0:8080".parse().unwrap())
+    hyper::Server::bind(&"0.0.0.0:8080".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
