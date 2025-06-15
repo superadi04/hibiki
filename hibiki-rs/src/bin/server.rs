@@ -3,7 +3,9 @@ use axum::{
     extract::Extension,
     routing::get,
     Router,
+    response::IntoResponse,
 };
+use hyper::server::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
@@ -15,7 +17,7 @@ async fn main() {
     tracing_subscriber::fmt::init();
 
     // Load models here once
-    let device = crate::device(false).unwrap(); // use CUDA
+    let device = device(false).unwrap(); // use CUDA
     let config: Config = toml::from_str(&std::fs::read_to_string("config.toml").unwrap()).unwrap();
 
     // Shared state (models, tokenizer)
@@ -26,7 +28,8 @@ async fn main() {
         .layer(Extension(state));
 
     info!("Starting server on 0.0.0.0:8080");
-    hyper::Server::bind(&"0.0.0.0:8080".parse().unwrap())
+
+    Server::bind(&"0.0.0.0:8080".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
@@ -51,7 +54,7 @@ impl HibikiState {
             lm_model_file,
             mimi_model_file,
             text_tokenizer: tokenizer_file,
-            audio_input_file: "in.wav".into(),  // temp placeholder
+            audio_input_file: "in.wav".into(),
             audio_output_file: "out.wav".into(),
             seed: 42,
             cfg_alpha: Some(1.0),
@@ -61,7 +64,7 @@ impl HibikiState {
     }
 }
 
-async fn handle_ws(ws: WebSocketUpgrade, Extension(state): Extension<Arc<Mutex<HibikiState>>>) -> impl axum::response::IntoResponse {
+async fn handle_ws(ws: WebSocketUpgrade, Extension(state): Extension<Arc<Mutex<HibikiState>>>) -> impl IntoResponse {
     ws.on_upgrade(|socket| handle_socket(socket, state))
 }
 
