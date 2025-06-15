@@ -4,7 +4,7 @@ use axum::{
     routing::get,
     Router,
 };
-use axum::serve::Server;
+use hyper::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
