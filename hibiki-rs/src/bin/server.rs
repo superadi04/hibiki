@@ -10,6 +10,7 @@ use tracing::info;
 
 use crate::gen::{Args, run};
 use crate::Config;
+use crate::device;
 
 #[tokio::main]
 async fn main() {
