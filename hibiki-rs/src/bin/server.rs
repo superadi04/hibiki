@@ -3,8 +3,8 @@ use axum::{
     extract::Extension,
     routing::get,
     Router,
-    Server,
 };
+use axum::serve::Server;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::info;
